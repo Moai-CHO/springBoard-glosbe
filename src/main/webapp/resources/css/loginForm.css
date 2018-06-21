@@ -1,0 +1,11 @@
+body {
+    background-color: #f3f5f7;
+}
+
+.login-container-wrapper {
+    margin: 170px 0 200px;
+}
+
+.ui.blue.header.center {
+    text-align: center;
+}

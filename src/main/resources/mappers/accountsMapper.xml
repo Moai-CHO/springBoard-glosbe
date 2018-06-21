@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ml.learningmachine.accounts">
+    <select id="test" resultType="String">
+        SELECT 'test'
+    </select>
+
+    <insert id="register">
+INSERT INTO accounts(email, password, nick_name, auth_token)
+VALUES (#{email}, #{password}, #{nick_name}, #{auth_token})
+    </insert>
+
+    <select id="idDuplicate" resultType="String">
+        SELECT email
+        from accounts
+        where email = #{email};
+    </select>
+
+    <select id="dpNickName" resultType="String">
+        SELECT *
+        FROM accounts
+        WHERE nick_name = #{nickName}
+    </select>
+
+    <select id="dpEmail" resultType="String">
+        SELECT *
+        FROM accounts
+        WHERE email = #{email}
+    </select>
+
+    <select id="isAccountCheck" resultType="ml.learningmachine.model.domain.AccountsVO">
+        SELECT *
+        FROM accounts
+        WHERE email = #{email} AND password = #{password};
+    </select>
+</mapper>

@@ -1,0 +1,120 @@
+.writer {
+    /*font-size: 1.1em;*/
+    color: rgba(0, 0, 0, .87);
+    /*margin-left: 0.5rem;*/
+    font-weight: 700;
+    transition: 0.3s;
+}
+
+.writer:hover {
+    color: rgb(30, 112, 191);
+}
+
+.date {
+    display: inline-block;
+    color: rgba(0, 0, 0, .4);
+    font-size: .875em;
+}
+
+body {
+    background: #f9f9f9
+}
+
+.header > a:hover {
+    text-decoration: underline;
+}
+
+.content {
+    margin-left: 210px;
+    width: 860px;
+    padding: 2rem;
+
+}
+
+.paging {
+    text-align: center;
+    margin-top: 2.5rem;
+}
+
+.paging > .ui {
+    font-size: 0.928571rem;
+}
+
+.ui.pagination.menu .active.item {
+    background: #673AB7;
+    color: rgba(255, 255, 255, .87);
+}
+
+.ui.menu a.item:hover {
+    background: #EDE7F6;
+    color: rgba(0, 0, 0, .87);
+}
+
+.ui.menu {
+    font-family: Helvetica Neue, Helvetica, Arial, "Apple SD Gothic Neo", "Malgun Gothic", Dotdum;
+}
+
+@media (max-width: 768px) {
+    .content {
+        margin-left: 0;
+        margin-top: 40px;
+        width: auto;
+    }
+
+    .ui.menu .item {
+        font-size: .67rem;
+    }
+
+}
+
+.date {
+    display: inline-block;
+    color: rgba(0, 0, 0, .4);
+    font-size: .875em;
+}
+
+.wordset-header {
+    border: 1px solid lightgray;
+    padding: 10px 2rem;
+    background-color: #e7e7e7;
+}
+
+.wordset-list-wrapper {
+    padding: 6px 10px;
+    border: 1px solid lightgray;
+    display: flex;
+    background-color: white
+}
+
+.wordset-list-wrapper:not(first-child) {
+    border-top: transparent;
+}
+
+.wordset-list-wrapper > .content-info {
+    width: 75%
+}
+
+.wordset-list-wrapper > .content-info > .header {
+    display: flex;
+    justify-content: space-between
+}
+
+.wordset-list-wrapper > .content-info > .footer {
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2; /*2줄까지*/
+
+    font-size: 0.925em;
+}
+
+.header > .info {
+    color: rgba(0, 0, 0, 0.55);
+    font-size: .825em;
+    font-family: Dotum;
+}
+
+.list-aside {
+    margin: auto 12px
+}

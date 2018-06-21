@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.superlern.contents">
+    <select id="test" resultType="String">
+        SELECT 'test'
+    </select>
+
+    <insert id="writeContents">
+        INSERT INTO contents(writer_id, wordset_subject, wordset_comment, wordset)
+        VALUES (#{writer_id}, #{wordset_subject}, #{wordset_comment}, #{wordset});
+    </insert>
+
+    <select id="viewContents" resultType="ml.learningmachine.model.domain.ContentsVO">
+        SELECT accounts.nick_name, contents.*
+        FROM accounts, contents
+        WHERE contents.writer_id = accounts.id AND board_number = #{board_num};
+    </select>
+
+    <select id="listContents" resultType="ml.learningmachine.model.domain.ContentsVO"
+            parameterType="ml.learningmachine.model.domain.Pagination">
+        SELECT accounts.nick_name, contents.*
+        FROM accounts, contents
+        WHERE contents.writer_id = accounts.id
+        <include refid="search"/>
+        ORDER BY board_number desc, regdate DESC
+        limit #{calcLimitPage}, #{countList};
+    </select>
+
+    <select id="totalCount" resultType="int">
+        SELECT count(*) AS totalCount
+        FROM contents;
+    </select>
+
+    <select id="searchTCount" resultType="int">
+        SELECT COUNT(*) AS totalCount
+        FROM contents
+        WHERE wordset_subject LIKE concat('%',#{keyword},'%');
+    </select>
+
+
+    <sql id="search">
+        <if test="keyword!=null and keyword!='' ">
+            AND contents.wordset_subject like concat('%',#{keyword},'%')
+        </if>
+    </sql>
+</mapper>

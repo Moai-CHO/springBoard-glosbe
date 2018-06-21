@@ -1,0 +1,127 @@
+
+.content {
+    margin-left: 210px;
+    width: 860px;
+    padding: 2rem;
+
+}
+
+@media (max-width: 768px) {
+    .content {
+        margin-left: 0;
+        margin-top: 40px;
+        width: auto;
+    }
+/*
+    .menu-bar {
+        bottom: auto;
+        width: 100%;
+        height: 40px;
+        padding: 0;
+    }*/
+}
+
+.writer {
+    /*font-size: 1.1em;*/
+    color: rgba(0, 0, 0, .87);
+    margin-left: 0.5rem;
+    font-weight: 700;
+    transition: 0.3s;
+}
+
+.writer:hover {
+    color: rgb(30, 112, 191);
+}
+
+.date {
+    display: inline-block;
+    margin-left: .5em;
+    color: rgba(0, 0, 0, .4);
+    font-size: .875em;
+}
+
+.wordset-line {
+    width: 0.15rem;
+    background-color: rgba(176, 176, 176, 0.3);
+}
+
+.word-area {
+    width: 38%;
+}
+
+.meaning-area {
+    width: 62%;
+    margin-left: 1.25rem;
+}
+
+.wordbook-text {
+    font-size: 1.3rem;
+    line-height: 1.625;
+}
+
+.wordset-wrapper {
+    display: flex;
+    padding: 1.25rem 2rem;
+}
+
+.wordset-header {
+    border: 1px solid lightgray;
+    padding: 10px 2rem;
+    background-color: #e7e7e7;
+}
+
+.wordbook-wrapper {
+    background: white;
+    border: 1px solid lightgray;
+    border-top: transparent;
+}
+
+.wordset-comment {
+    font-size: 1.2rem;
+    border-top: 1px solid #c1c1c1;
+    padding-top: .55rem;
+}
+
+.wordset-info-container {
+    border: 1px solid #c1c1c1;
+    padding: 1rem;
+    background-color: white
+}
+
+.wordset-contentsInfo-wrapper {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.wordset-contentsInfo-contents {
+    display: inline-block;
+}
+
+.regdate {
+    text-align: left
+}
+
+.contents-info {
+    /*display: inline-block;*/
+    margin-left: .5em;
+    color: rgba(0, 0, 0, 0.55);
+    font-size: .825em;
+    font-family: Dotum;
+}
+
+.wordbook-set {
+    border-top: transparent
+}
+
+.wordset-container {
+    margin-top: 4rem
+}
+
+body {
+    background: #f9f9f9
+}
+
+.contents-info > span:first-child:after {
+    content: '/';
+    margin: 0 3px;
+}
