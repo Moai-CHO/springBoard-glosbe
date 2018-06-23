@@ -4,6 +4,7 @@ package ml.learningmachine.model.service;
 import ml.learningmachine.model.domain.ContentsVO;
 import ml.learningmachine.model.domain.Pagination;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface ContentsDAO {
@@ -17,4 +18,9 @@ public interface ContentsDAO {
 
     public int searchTCount(String keyword) throws Exception;
 
+    public void updateViewCount(int board_number) throws Exception;
+
+    public ContentsVO get_modifyContent(HashMap modifyMap) throws Exception;
+
+    public void board_modify(ContentsVO vo) throws Exception;
 }

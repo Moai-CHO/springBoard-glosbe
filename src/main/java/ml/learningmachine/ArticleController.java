@@ -1,5 +1,6 @@
 package ml.learningmachine;
 
+import ml.learningmachine.model.domain.AccountsVO;
 import ml.learningmachine.model.domain.ContentsVO;
 import ml.learningmachine.model.domain.Pagination;
 import ml.learningmachine.model.service.ContentsDAO;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
 
 @RequestMapping("article/")
@@ -29,7 +31,7 @@ public class ArticleController {
         if (session.getAttribute("login") == null) {
             return "redirect:/user/login";
         }
-        return "write";
+        return "article/write";
     }
 
     // 글 작성
@@ -89,6 +91,16 @@ public class ArticleController {
 
     }
 
+    @RequestMapping(path = "modify", method = RequestMethod.GET)
+    public void asd11(@RequestParam(value = "no") int board_num, HttpSession session, Model model) throws Exception {
+        System.out.println("IN");
+        AccountsVO accountsVO = (AccountsVO) session.getAttribute("login");
+        HashMap<String, Integer> modifyMap = new HashMap<String, Integer>();
+        modifyMap.put("writer_id", accountsVO.getId());
+        modifyMap.put("board_number", board_num);
+
+        model.addAttribute("modify", contentsDAO.get_modifyContent(modifyMap));
+    }
 
     @RequestMapping(path = "myBook", method = RequestMethod.GET)
     public String myBookPage(HttpSession session) {
@@ -96,7 +108,23 @@ public class ArticleController {
             return "redirect:/user/login";
         }
         System.out.println();
-        return "myBook";
+        return "article/myBook";
+    }
+
+    @RequestMapping(path = "content_modify", method = RequestMethod.POST)
+    public ResponseEntity<String> content_modify(ContentsVO contentsVO) {
+        System.out.println("data ::" + contentsVO);
+        ResponseEntity<String> entity = null;
+
+        try {
+            contentsDAO.board_modify(contentsVO);
+            System.out.println("수정완료");
+            entity = new ResponseEntity<String>("WRITE_SUCCESS", HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            entity = new ResponseEntity<String>("WRITE_FAIL", HttpStatus.BAD_REQUEST);
+        }
+        return entity;
     }
 
     @RequestMapping(path = "view", method = RequestMethod.GET)
@@ -106,6 +134,7 @@ public class ArticleController {
 
         try {
             contentsDAO.viewContents(board_num);
+            contentsDAO.updateViewCount(board_num);
             model.addAttribute("view_wordBook", contentsDAO.viewContents(board_num));
         } catch (Exception e) {
             e.printStackTrace();

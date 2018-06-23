@@ -1,15 +1,14 @@
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%--
   Created by IntelliJ IDEA.
   User: Jo
-  Date: 2018-06-09
-  Time: 오후 7:25
+  Date: 2018-06-23
+  Time: 오전 4:52
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!doctype>
 <html>
 <head>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.3.1/dist/semantic.min.css">
@@ -24,8 +23,10 @@
     <link rel="stylesheet" type="text/css" href="/resources/css/side.css">
     <link rel="stylesheet" type="text/css" href="/resources/css/view.css">
     <link rel="stylesheet" type="text/css" href="/resources/css/write.css">
+
 </head>
 <body>
+
 <div>
     <%@include file="../include/side.jsp" %>
 </div>
@@ -60,26 +61,7 @@
         <!--단어세트-->
         <div class="wordset-header"></div>
         <div class="wd-set">
-            <div class="wordbook-set">
-                <div class="wordbook-wrapper" data-word-term="1">
-                    <div class="wordset-wrapper">
-                        <div class="word-area">
-                            <span class="wordbook-text">
-                                <textarea class="wordset-option-input input-word" name="" rows="1"></textarea>
-                                <div class="sub-title">단어</div>
-                            </span>
-                        </div>
-                        <div class="meaning-area">
-                            <span class="wordbook-text">
-                                <textarea class="wordset-option-input result-meaning" name="" rows="1"></textarea>
-                                <div class="sub-title">뜻</div>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="search-result-container">
-                    </div>
-                </div>
-            </div>
+            <%--wordset 추가되는 곳--%>
         </div>
         <div id="add-wordset">
             <i class="add icon"></i> 추가
@@ -88,7 +70,7 @@
 
     <div style="text-align: right; margin-top: 2rem">
         <button id="contents-create">
-            만들기
+            수정
         </button>
     </div>
 </div>
@@ -195,6 +177,49 @@ $(document).on('change keydown keyup', 'textarea', function () {
         ;
     })
 </script>
+<script> // wordset 가져오기
+wordset = ${modify.wordset};
+set_length = wordset.wordset.length;
+
+function line_break() {
+    word = wordset.wordset[i].word;
+    meaning = wordset.wordset[i].meaning;
+
+
+    if (word.indexOf('\n') || meaning.indexOf('\n')) {
+        word = word.replace(new RegExp('\r?\n', 'g'), '<br />');
+        meaning = meaning.replace(new RegExp('\r?\n', 'g'), '<br />');
+    }
+}
+
+for (var i = 0; i < wordset.wordset.length; i++) {
+    line_break();
+    wordset_inner = document.createElement('div');
+    wordset_inner.className = 'wordbook-set';
+    wordset_inner.innerHTML = '<div class="wordbook-wrapper" data-word-term="' + (i + 1) + '">\n' +
+        '                    <div class="wordset-wrapper">\n' +
+        '                        <div class="word-area">\n' +
+        '                            <span class="wordbook-text">\n' +
+        '                                <textarea class="wordset-option-input input-word" name="" rows="1">' + word + '</textarea>\n' +
+        '                                <div class="sub-title">단어</div>\n' +
+        '                            </span>\n' +
+        '                        </div>\n' +
+        '                        <div class="meaning-area">\n' +
+        '                            <span class="wordbook-text">\n' +
+        '                                <textarea class="wordset-option-input result-meaning" name="" rows="1">' + meaning + '</textarea>\n' +
+        '                                <div class="sub-title">뜻</div>\n' +
+        '                            </span>\n' +
+        '                        </div>\n' +
+        '                    </div>\n' +
+        '                    <div class="search-result-container">\n' +
+        '                    </div>\n' +
+        '                </div>\n';
+
+    $('.wd-set')[0].appendChild(wordset_inner);
+
+}
+
+</script>
 <script>
     /* 단어세트 추가버튼*/
     $('#add-wordset').on('click', function () {
@@ -236,14 +261,14 @@ $(document).on('change keydown keyup', 'textarea', function () {
         if ((subject && comment) != "") {
             $.ajax({
                 type: "POST",
-                url: "write",
+                url: "content_modify",
                 data: {
+                    board_number: ${modify.board_number},
                     writer_id: writer_id,
                     wordset_subject: subject,
                     wordset_comment: comment,
                     wordset: wordsetConvert()
                 },
-                // contentType : 'application/json; charset=UTF-8',
                 success: ajaxSuccess,
                 error: ajaxError
             });
@@ -254,7 +279,8 @@ $(document).on('change keydown keyup', 'textarea', function () {
 
     function ajaxSuccess(data) {
         if (data == 'WRITE_SUCCESS') {
-            location.href = 'loginMain';
+            alert('수정 완료');
+            location.href = 'view?no=${modify.board_number}';
         }
     }
 
@@ -287,6 +313,8 @@ $(document).on('change keydown keyup', 'textarea', function () {
     }
 
 </script>
+
+
 <script> // jqueryUI 드래그 기능.
 $(function () {
     $(".wd-set").sortable({
@@ -296,6 +324,4 @@ $(function () {
 });
 </script>
 </body>
-
-
 </html>

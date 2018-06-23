@@ -37,6 +37,22 @@
         WHERE wordset_subject LIKE concat('%',#{keyword},'%');
     </select>
 
+    <update id="updateViewCount">
+        UPDATE contents SET view_count = view_count + 1 WHERE  board_number = #{board_number};
+    </update>
+    
+    <select id="get_modifyContent" resultType="ml.learningmachine.model.domain.ContentsVO" parameterType="hashmap">
+        SELECT *
+        FROM contents
+        WHERE writer_id = #{writer_id}
+        AND board_number = #{board_number};
+    </select>
+
+    <update id="board_modify" parameterType="ml.learningmachine.model.domain.ContentsVO">
+        UPDATE contents
+        SET wordset_subject = #{wordset_subject}, wordset_comment = #{wordset_comment}, wordset = #{wordset}
+        WHERE board_number = #{board_number};
+    </update>
 
     <sql id="search">
         <if test="keyword!=null and keyword!='' ">

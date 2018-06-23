@@ -120,6 +120,10 @@ public class UserController {
 
     }
 
+    @RequestMapping(path = "logout", method = RequestMethod.GET)
+    public void logout() {
+        System.out.println("로그아웃");
+    }
 
     @RequestMapping(path = "tryRegist", method = RequestMethod.POST)
     public String asd(@Valid @ModelAttribute("accounts") AccountsVO vo, BindingResult bindingResult) {

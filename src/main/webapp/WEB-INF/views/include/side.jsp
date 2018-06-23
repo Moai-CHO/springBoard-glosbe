@@ -7,20 +7,41 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<div class="menu-bar">
-    <div style="padding: 0 20px;">
-        <h2 style="margin: 1.25rem 0">ULTRA LEARN</h2>
+<c:set var="login_session" value="${sessionScope.login}"/>
+<div class="menu-bar asdasd">
 
+
+    <div class="menu-head">
+        <h1 class="menu-head-inner">
+
+            <div class="menu-button-wrapper">
+                <input type="checkbox" id="menu-toggle">
+                <label for="menu-toggle"><i class="bars icon"></i></label>
+            </div>
+
+            <div>뤄닝머신</div>
+
+            <div class="menu-button-wrapper">
+                <c:choose>
+                    <c:when test="${empty login_session}">
+                        <a href="/user/login"><i class="sign in alternate icon"></i></a>
+                    </c:when>
+
+                    <c:when test="${!empty login_session}">
+                        <a href="/user/logout"><i class="sign in alternate icon"></i></a>
+                    </c:when>
+                </c:choose>
+            </div>
+        </h1>
 
         <div>
-            <div class="search-container" style="height: 44px;">
-                <input type="text" placeholder="검색섹터" style="border: none; height: 100%; width: 100%;">
-                <button style="border: transparent; background: transparent;"><i class="search icon"></i></button>
+            <div class="search-container">
+                <input type="text" placeholder="검색">
+                <button><i class="search icon"></i></button>
             </div>
         </div>
     </div>
 
-    <c:set var="login_session" value="${sessionScope.login}"/>
     <c:choose>
         <%--로그인 세션 無--%>
         <c:when test="${empty login_session}">
@@ -28,26 +49,28 @@
             <div class="user-container">
 
                 <a href="/user/login">
-                    <div style="display: flex; font-size: 12px; color: white; font-family: '돋움', Dotum;">
-                        <div style="margin-right: .35rem"><i class="sign in alternate icon"></i></div>
+                    <div>
+                        <div><i class="sign in alternate icon"></i></div>
                         <span>로그인</span>
                     </div>
                 </a>
-
                 <a href="/user/regist">
-                    <div style="display: flex; font-size: 12px; color: white; font-family: '돋움', Dotum;">
-                        <div style="margin-right: .35rem"><i class="user icon"></i></div>
+                    <div>
+                        <div><i class="user icon"></i></div>
                         <span>회원가입</span>
                     </div>
                 </a>
             </div>
-
-
         </c:when>
 
         <%--로그인 세션 有--%>
         <c:when test="${!empty login_session}">
-            로그인 O
+            <div class="user-container">
+                    ${login_session.id}
+                    ${login_session.nick_name}님 환영합니다
+                <div>로그아웃</div>
+            </div>
+
         </c:when>
     </c:choose>
     <div class="category-list">
@@ -68,4 +91,19 @@
         </a>
     </div>
 </div>
+<script>
+    $('.search-container > input').on('keydown', function (event) {
+        if (event.keyCode == 13) {
+            keyword = $('.search-container > input').val(); // 키워드
+            location.href = '/article/list?page=1&keyword=' + keyword;
+        }
+    })
+    $('#menu-toggle').on('change', function () {
+        if ($('#menu-toggle').is(':checked')) {
+            $('.menu-bar').addClass('open');
+        } else {
+            $('.menu-bar').removeClass('open');
+        }
+    })
+</script>
 </div>
