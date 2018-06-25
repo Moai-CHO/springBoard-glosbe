@@ -6,8 +6,8 @@
     </select>
 
     <insert id="register">
-INSERT INTO accounts(email, password, nick_name, auth_token)
-VALUES (#{email}, #{password}, #{nick_name}, #{auth_token})
+INSERT INTO accounts(email, password, nick_name)
+VALUES (#{email}, #{password}, #{nick_name})
     </insert>
 
     <select id="idDuplicate" resultType="String">

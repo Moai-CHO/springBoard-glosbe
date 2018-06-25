@@ -49,8 +49,8 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-    <welcome-file-list>
+    <!--<welcome-file-list>
         <welcome-file>/WEB-INF/views/article/list.jsp</welcome-file>
-    </welcome-file-list>
+    </welcome-file-list>-->
 
 </web-app>

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -42,30 +43,33 @@ public class UserController {
     }
 
     @RequestMapping(path = "tryLogin", method = RequestMethod.POST)
-    public String asd(@Valid @ModelAttribute("accounts") AccountsVO vo, BindingResult bindingResult, HttpSession httpSession) {
+    public String asd(@Valid @ModelAttribute("accounts") AccountsVO vo, BindingResult bindingResult, HttpSession httpSession, Model model) {
         System.out.println(vo.getEmail());
         System.out.println(vo.getPassword());
 
         AccountsVO accountInfo = null;
 
-        try {
-            if (bindingResult.hasErrors()) {
-                return "user/login";
+
+        if (bindingResult.hasErrors()) {
+            System.out.println("에러있음");
+            return "user/login"; //로그인페이지 재 이동
+        } else {
+            try {
+                accountInfo = accountsDAO.isAccountCheck(vo);
+                if (accountInfo == null) {
+                    System.out.println("아디비번안맞음");
+                    model.addAttribute("errormsg", "비밀번호 불일치");
+                    return "user/login";
+                } else {
+                    httpSession.setAttribute("login", accountInfo);
+                    System.out.println(httpSession.getAttribute("login"));
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            accountInfo = accountsDAO.isAccountCheck(vo);
-            System.out.println(accountInfo.getId());
-            if (accountInfo.getMail_auth_state() == 0)
-                // 인증되지 않은 계정
-                return "redirect:authInfo";
-        } catch (NullPointerException e) {
-            System.out.println("auth_state 찾을 수 없음, 아이디 비번 맞지 않음.");
-            System.out.println("tostring :: " + bindingResult.toString());
-            return "redirect:login";
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-        httpSession.setAttribute("login", accountInfo);
-        System.out.println(httpSession.getAttribute("login"));
+
         return "redirect:/";
     }
 
@@ -126,33 +130,18 @@ public class UserController {
     }
 
     @RequestMapping(path = "tryRegist", method = RequestMethod.POST)
-    public String asd(@Valid @ModelAttribute("accounts") AccountsVO vo, BindingResult bindingResult) {
+    public String asd(@Valid @ModelAttribute("accounts") AccountsVO vo, BindingResult bindingResult) throws Exception {
 
-        SendAuthEmail sendAuthEmail = new SendAuthEmail();
-        System.out.println("ㅎㅎ");
+        System.out.println("회원가입 검증 시작");
         if (bindingResult.hasErrors()) { // 검증 실패
             System.out.println("검증실패");
             System.out.println(vo.toString());
-            return "user/regist";
+            return "redirect:user/regist";
         }
-        System.out.println("성공");
-        System.out.println(vo.toString());
-        String token = sendAuthEmail.createToken();
-        System.out.println("1 :: " + token);
-        vo.setAuth_token(token);
 
-        try {
-            System.out.println("2 :: " + token);
-            accountsDAO.register(vo);
-            System.out.println("3 :: " + token);
-            sendAuthEmail.sendMail(token);
-            System.out.println("4 :: " + token);
-        } catch (Exception e) {
-            System.out.println("regist failed");
-            e.printStackTrace();
-        }
+        accountsDAO.register(vo);
         System.out.println("가입성공");
-        return "user/auth"; //인증안내페이지이동
+        return "user/regist_success"; //인증안내페이지이동
     }
 
 }

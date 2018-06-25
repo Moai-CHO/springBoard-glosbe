@@ -39,7 +39,7 @@
     </div>--%>
     <div class="wordset-info-container">
 
-        <input placeholder="제목" type="text" id="subject" class="wordset-option-input">
+        <input placeholder="제목" type="text" id="subject" class="wordset-option-input" value="${modify.wordset_subject}">
 
         <div>
             <select id="destLang" class="wordset-option-input">
@@ -54,7 +54,7 @@
                 <option value="fr">프랑스어</option>
             </select>
         </div>
-        <textarea name="" id="comment" rows="5" class="wordset-option-input"></textarea>
+        <textarea name="" id="comment" rows="5" class="wordset-option-input">${modify.wordset_comment}</textarea>
     </div>
 
     <div class="wordset-container">

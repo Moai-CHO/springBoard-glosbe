@@ -8,10 +8,11 @@ import javax.validation.constraints.Size;
 
 public class AccountsVO {
     private int id;
-    @Email
-    @NotBlank
+    @Email(message = "이메일 형식에 맞지않습니다.")
+    @NotBlank(message = "이메일 형식에 맞지않습니다.")
     private String email;
-    @Size(min = 6, max = 20)
+
+    @Size(min = 6, max = 20, message = "비밀번호는 6자리 이상 20자리 미만입니다.")
     private String password;
     @Size(min = 2, max = 12)
     private String nick_name;

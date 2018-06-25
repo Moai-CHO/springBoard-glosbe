@@ -19,8 +19,7 @@
                 <label for="menu-toggle"><i class="bars icon"></i></label>
             </div>
 
-            <div>뤄닝머신</div>
-
+            <div><a href="/" class="head-title">러닝머신</a></div>
             <div class="menu-button-wrapper">
                 <c:choose>
                     <c:when test="${empty login_session}">
@@ -65,10 +64,15 @@
 
         <%--로그인 세션 有--%>
         <c:when test="${!empty login_session}">
+
             <div class="user-container">
-                    ${login_session.id}
-                    ${login_session.nick_name}님 환영합니다
-                <div>로그아웃</div>
+
+                <a href="/user/logout">
+                    <div>
+                        <div><i class="sign in alternate icon"></i></div>
+                        <span>로그아웃</span>
+                    </div>
+                </a>
             </div>
 
         </c:when>

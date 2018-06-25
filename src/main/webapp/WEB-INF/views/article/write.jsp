@@ -53,7 +53,7 @@
                 <option value="fr">프랑스어</option>
             </select>
         </div>
-        <textarea name="" id="comment" rows="5" class="wordset-option-input"></textarea>
+        <textarea name="" id="comment" rows="5" class="wordset-option-input" placeholder="단어세트 설명"></textarea>
     </div>
 
     <div class="wordset-container">
@@ -248,13 +248,13 @@ $(document).on('change keydown keyup', 'textarea', function () {
                 error: ajaxError
             });
         } else {
-            alert('빈칸채워라');
+            alert('제목 혹은 설명에 공백이 존재합니다.');
         }
     });
 
     function ajaxSuccess(data) {
         if (data == 'WRITE_SUCCESS') {
-            location.href = 'loginMain';
+            location.href = 'view=';
         }
     }
 
@@ -276,7 +276,7 @@ $(document).on('change keydown keyup', 'textarea', function () {
             var word = $(document).find('.input-word')[i].value; // 단어
             var mean = $(document).find('.result-meaning')[i].value; // 의미
             if ((word && mean) === "") {
-                alert('단어장 빈칸 채우셈');
+                alert('단어세트에 공백이 존재합니다.');
                 throw 'WORDSET_BLANK_STOP'; // 빈칸 함수 중지
             }
             var wordSet = {'word': word, 'meaning': mean};

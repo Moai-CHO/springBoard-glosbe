@@ -24,6 +24,11 @@ public class ArticleController {
     @Autowired
     private ContentsDAO contentsDAO;
 
+    @RequestMapping("../")
+    public String welcomePage() {
+        System.out.println("웃흥");
+        return "article/list";
+    }
 
     //글작성 페이지
     @RequestMapping(path = "write", method = RequestMethod.GET)
